@@ -16,6 +16,13 @@
   - cant happen with tcp, but with udp
   - how would it be handled?
     + acknowladge everything until latest server ackknowladgment
+* what types of data do we send?
+  - movement, input, positions
+    + differences between own client and other clients
+  - other type of events (collisions, explosions, shooting, particles)
+    + sent as instant events?
+    + bundled in normal gamestate/loop
+    + send explosion start at timestamp?
 
 
 

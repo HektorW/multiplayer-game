@@ -24,3 +24,10 @@
 
 * Multiple clients
   - interpolating other clients movement
+
+* Shooting / collisions
+  - some sort of shooting / collision handling
+
+* Server collision checking in the past
+  - keeping state
+  - backtracking on timestamp
