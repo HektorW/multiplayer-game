@@ -12,6 +12,10 @@
   - which values to save?
     + performance issues?
   - calculating an old game state?
+* out of order acknowladgments from server?
+  - cant happen with tcp, but with udp
+  - how would it be handled?
+    + acknowladge everything until latest server ackknowladgment
 
 
 
