@@ -1,0 +1,11 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Hektor Wallin <hektorw@gmail.com> (http://hektorw.se/)",
+  "dependencies": {
+    "socket.io": "~1.1.0",
+    "express": "~4.9.5"
+  }
+}
