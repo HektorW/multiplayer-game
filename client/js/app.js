@@ -1,7 +1,17 @@
 define([
-  'spritebatch'
+  'underscore',
+
+  'spritebatch',
+  'colors',
+
+  'DrawableCircle'
 ], function(
-  SpriteBatch
+  _,
+
+  SpriteBatch,
+  Colors,
+
+  DrawableCircle
 ) {
 
   var App = {
@@ -14,17 +24,20 @@ define([
     },
 
     _init: function() {
-      // bind functions
-      this.update = this.update.bind(this);
+      _.bindAll(this, 'update');
 
-      var canvas = document.getElementById('canvas');
-      this.spriteBatch = new SpriteBatch(canvas);
+      this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
+
+      this.circle = new DrawableCircle(this.spriteBatch, 200, 200);
     },
 
 
     update: function(time) {
-      requireAnimationFrame(this.update);
+      requestAnimationFrame(this.update);
 
+      this.spriteBatch.clear(Colors.aqua);
+
+      this.circle.draw();
     }
 
   };

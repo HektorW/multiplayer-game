@@ -1,33 +1,37 @@
 # Planning
-* Basic setup of project
+## Basic setup of project
   - setting up client and server connection
   - rendering primitives
   - local input
   - movements
+  - 1D movements
 
-* Delaying techniques
+## Delaying techniques
   - delaying from server
   - delaying from client
 
-* Basic state synchronization between a client and server
+## Basic state synchronization between a client and server
   - timestamps
   - sending input/positions/movements
   - authorative server
 
-* Client prediction
+## Client prediction
   - predicting movements in client
   - sending validations from server
 
-* Server reconciliation
+## Somewhere here 2D movements
+  - keeping it simple up to this point
+
+## Server reconciliation
   - server acknowladging clients movement
   - client validates acknowladgments
 
-* Multiple clients
+## Multiple clients
   - interpolating other clients movement
 
-* Shooting / collisions
+## Shooting / collisions
   - some sort of shooting / collision handling
 
-* Server collision checking in the past
+## Server collision checking in the past
   - keeping state
   - backtracking on timestamp

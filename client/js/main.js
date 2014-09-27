@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'underscore': 'node_modules/underscore/underscore'
+    'underscore': '../node_modules/underscore/underscore',
+    'shared': '../shared'
   }
 });
 

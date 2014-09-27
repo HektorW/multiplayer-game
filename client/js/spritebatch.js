@@ -17,7 +17,7 @@ define([], function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     if (color) {
-      ctx.
+      this.drawRectangle(0, 0, this.width, this.height, color, true);
     }
   };
 
@@ -27,8 +27,7 @@ define([], function() {
 
     ctx.beginPath();
 
-    // t
-
+    ctx.rect(x, y, w, h);
     this._fillOrStroke(ctx, color, fill);
 
     ctx.restore();
