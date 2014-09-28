@@ -44,6 +44,14 @@ define([
     this.___keyUp(key);
   };
 
+  var _singletonInstance = null;
+  Keyboard.getInstance = function() {
+    if (!_singletonInstance) {
+        _singletonInstance = new Keyboard();
+    }
+    return _singletonInstance;
+  };
+
 
   /////////////////////
   // Keycodes maping //

@@ -48,7 +48,16 @@
 
     handleState: function(state) {
       this.supr(state);
-      this.radius = state.radius;
+
+      if (state.radius) {
+        this.radius = state.radius;
+      }
+    },
+
+    getState: function() {
+      var state = this.supr();
+      state.radius = this.radius;
+      return state;
     }
   });
 

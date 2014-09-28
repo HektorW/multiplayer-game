@@ -17,7 +17,7 @@ expressApp.use('/shared', express.static('../shared'));
 
 
 io.on('connection', function(socket) {
-  Game.newConnection(socket);
+  Game.socketConnect(socket);
 });
 
 

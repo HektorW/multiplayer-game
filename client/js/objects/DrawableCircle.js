@@ -13,7 +13,7 @@ define([
     },
 
     draw: function() {
-      this.spriteBatch.drawCircle(this.position[0], this.position[1], this.radius, this.color, true);
+      this.spriteBatch.drawCircle(this.position.x, this.position.y, this.radius, this.color, true);
     }
   });
 

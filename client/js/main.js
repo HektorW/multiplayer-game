@@ -1,7 +1,9 @@
 require.config({
   paths: {
     'underscore': '../node_modules/underscore/underscore',
-    'shared': '../shared'
+    'shared': '../shared',
+    'socket.io': '/socket.io/socket.io',
+    'events': '../shared/libs/events'
   }
 });
 

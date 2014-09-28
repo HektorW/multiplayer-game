@@ -4,14 +4,22 @@ define([
   'spritebatch',
   'colors',
 
-  'DrawableCircle'
+  'managers/NetworkManager',
+
+  'controls/keyboard',
+
+  'objects/UserControlableCircle'
 ], function(
   _,
 
   SpriteBatch,
   Colors,
 
-  DrawableCircle
+  NetworkManager,
+
+  Keyboard,
+
+  UserControlableCircle
 ) {
 
   var App = {
@@ -24,31 +32,36 @@ define([
     },
 
     _init: function() {
-      _.bindAll(this, 'update', 'stateReceived');
+      _.bindAll(this, 'update', 'onState');
 
       this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
 
+      NetworkManager.init();
 
-      // Socket
-      var socket = this.socket = io.connect();
-      socket.on('connect', _.bind(function() { socket.emit('setup', { screenWidth: this.spriteBatch.width, screenHeight: this.spriteBatch.height }); }, this));
-      socket.on('state', this.stateReceived);
+      NetworkManager.on('state', this.onState);
     },
 
-    stateReceived: function(data) {
+    onState: function(state) {
       if (!this.circle) {
-        this.circle = new DrawableCircle(this.spriteBatch, 0, 0, 0, Colors.green);
+        this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
+        NetworkManager.emit('setup', {
+          screenWidth: this.spriteBatch.width,
+          screenHeight: this.spriteBatch.height
+        });
       }
 
-      this.circle.handleState(data);
+      this.circle.handleState(state);
     },
 
     update: function(time) {
       requestAnimationFrame(this.update);
 
-      this.spriteBatch.clear(Colors.aqua);
+      Keyboard.getInstance().update();
+
+      this.spriteBatch.clear(Colors.olive);
 
       if (this.circle) {
+        this.circle.update();
         this.circle.draw();
       }
     }
