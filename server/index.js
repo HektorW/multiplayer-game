@@ -1,11 +1,27 @@
 
 var express = require('express');
-// var io = require('socket.io');
+var http = require('http');
+var socketio = require('socket.io');
+var Game = require('./game.js');
 
-var app = express();
+
+var expressApp = express();
+var server = http.Server(expressApp);
+var io = socketio(server);
 
 // server static files from client
-app.use(express.static('../client'));
-app.use('/shared', express.static('../shared'));
+expressApp.use(express.static('../client'));
+expressApp.use('/shared', express.static('../shared'));
 
-app.listen(8080);
+
+
+
+io.on('connection', function(socket) {
+  Game.newConnection(socket);
+});
+
+
+
+
+
+server.listen(8080);
