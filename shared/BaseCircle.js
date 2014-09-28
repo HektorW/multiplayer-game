@@ -43,6 +43,12 @@
       this.supr(x, y);
 
       this.radius = radius || 20;
+    },
+
+
+    handleState: function(state) {
+      this.supr(state);
+      this.radius = state.radius;
     }
   });
 

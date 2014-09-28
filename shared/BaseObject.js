@@ -36,6 +36,11 @@
   var BaseObject = Classy.extend({
     __init__: function(x, y) {
       this.position = [x || 0, y || 0];
+    },
+
+    handleState: function(state) {
+      this.position[0] = state.x;
+      this.position[1] = state.y;
     }
   });
 

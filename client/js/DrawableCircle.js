@@ -1,22 +1,19 @@
 define([
-  'shared/BaseCircle',
-
-  'colors'
+  'shared/BaseCircle'
 ], function(
-  BaseCircle,
-
-  Colors
+  BaseCircle
 ) {
   
   var DrawableCircle = BaseCircle.extend({
-    __init__: function(spriteBatch, x, y, radius) {
+    __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(x, y, radius);
 
       this.spriteBatch = spriteBatch;
+      this.color = color;
     },
 
     draw: function() {
-      this.spriteBatch.drawCircle(this.position[0], this.position[1], this.radius, Colors.red, true);
+      this.spriteBatch.drawCircle(this.position[0], this.position[1], this.radius, this.color, true);
     }
   });
 
