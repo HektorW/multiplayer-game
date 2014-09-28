@@ -83,8 +83,8 @@
     },
 
     update: function(timestamp) {
-      this.position.x += this.direction.x * this.velocity * timestamp.delta;
-      this.position.y += this.direction.y * this.velocity * timestamp.delta;
+      this.position.x += this.direction.x * this.velocity * timestamp.tick;
+      this.position.y += this.direction.y * this.velocity * timestamp.tick;
     }
   });
 

@@ -31,12 +31,23 @@
     },
 
     create: function(previous) {
+      if (!previous) {
+        previous = {
+          time: 0,
+          tick: 0,
+          elapsedMs: 0,
+          total: 0
+        };
+      }
       var now = Timestamp.now();
-      var previousNow = previous && previous.time || 0;
+      var elapsedMs = now - previous.time;
+      var total = previous.total + elapsedMs;
 
       return {
         time: now,
-        delta: (previousNow - now) / 1000.0
+        tick: (elapsedMs) / 1000.0,
+        elapsedMs: elapsedMs,
+        total: total
       };
     }
   };
