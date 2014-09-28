@@ -13,7 +13,7 @@ var Game = Classy.extend({
 
     this.networkCircles = {};
 
-    this.updateFrequencyMs = 1000 / 10;
+    this.updateFrequencyMs = 1000 / 1;
     this.latency = 300;
   },
 

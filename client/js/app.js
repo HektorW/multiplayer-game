@@ -4,6 +4,8 @@ define([
   'spritebatch',
   'colors',
 
+  'shared/Timestamp',
+
   'managers/NetworkManager',
 
   'controls/keyboard',
@@ -14,6 +16,8 @@ define([
 
   SpriteBatch,
   Colors,
+
+  Timestamp,
 
   NetworkManager,
 
@@ -53,17 +57,21 @@ define([
       this.circle.handleState(state);
     },
 
-    update: function(time) {
+    update: function() {
       requestAnimationFrame(this.update);
+
+      var timestamp = Timestamp.create(this.previousTimestamp);
 
       Keyboard.getInstance().update();
 
       this.spriteBatch.clear(Colors.olive);
 
       if (this.circle) {
-        this.circle.update();
+        this.circle.update(timestamp);
         this.circle.draw();
       }
+
+      this.previousTimestamp = timestamp;
     }
   };
 

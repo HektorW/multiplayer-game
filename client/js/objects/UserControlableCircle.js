@@ -19,9 +19,11 @@ define([
   var UserControlableCircle = DrawableCircle.extend({
     __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(spriteBatch, x, y, radius, color);
+
+      this.clientPrediction = true;
     },
 
-    update: function(time) {
+    update: function(timestamp) {
       var keyboard = Keyboard.getInstance();
 
       var inputCommand = InputCommand.create();
@@ -40,6 +42,16 @@ define([
       }
 
       NetworkManager.sendCommand('input', inputCommand);
+
+      if (this.clientPrediction) {
+        this.handleState({
+          direction: {
+            x: inputCommand.x,
+            y: inputCommand.y
+          }
+        });
+        this.supr(timestamp);
+      }
     }
   });
 
