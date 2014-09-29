@@ -41,7 +41,7 @@ define([
       }, this), this.latency);
     },
 
-    emit: function(event, data) {
+    send: function(event, data) {
       this.socket.emit(event, data);
     }
   };

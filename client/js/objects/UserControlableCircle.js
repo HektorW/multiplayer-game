@@ -29,16 +29,16 @@ define([
       var inputCommand = InputCommand.create();
 
       if (keyboard.isButtonDown('left')) {
-        inputCommand.x += 1;
-      }
-      if (keyboard.isButtonDown('right')) {
         inputCommand.x -= 1;
       }
+      if (keyboard.isButtonDown('right')) {
+        inputCommand.x += 1;
+      }
       if (keyboard.isButtonDown('up')) {
-        inputCommand.y += 1;
+        inputCommand.y -= 1;
       }
       if (keyboard.isButtonDown('down')) {
-        inputCommand.y -= 1;
+        inputCommand.y += 1;
       }
 
       NetworkManager.sendCommand('input', inputCommand);

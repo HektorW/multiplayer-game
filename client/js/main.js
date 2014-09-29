@@ -3,7 +3,14 @@ require.config({
     'underscore': '../node_modules/underscore/underscore',
     'shared': '../shared',
     'socket.io': '/socket.io/socket.io',
-    'events': '../shared/libs/events'
+    'events': '../shared/libs/events',
+    'dat.gui': 'libs/dat.gui'
+  },
+
+  shim: {
+    'dat.gui': {
+      exports: 'dat'
+    }
   }
 });
 

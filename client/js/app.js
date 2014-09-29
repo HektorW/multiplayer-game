@@ -6,6 +6,8 @@ define([
 
   'shared/Timestamp',
 
+  'settings',
+
   'managers/NetworkManager',
 
   'controls/keyboard',
@@ -19,6 +21,8 @@ define([
 
   Timestamp,
 
+  Settings,
+
   NetworkManager,
 
   Keyboard,
@@ -30,15 +34,16 @@ define([
     spriteBatch: null,
 
     run: function() {
-      this._init();
+      this.init();
 
       this.update(performance.now());
     },
 
-    _init: function() {
+    init: function() {
       _.bindAll(this, 'update', 'onState');
 
       this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
+      Settings.init();
 
       NetworkManager.init();
 
@@ -48,7 +53,7 @@ define([
     onState: function(state) {
       if (!this.circle) {
         this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
-        NetworkManager.emit('setup', {
+        NetworkManager.send('setup', {
           screenWidth: this.spriteBatch.width,
           screenHeight: this.spriteBatch.height
         });
