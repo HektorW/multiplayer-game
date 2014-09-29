@@ -13,6 +13,9 @@ var NetworkCircle = BaseCircle.extend({
 
     socket.on('command.input', this.onInput);
     socket.on('setup', this.onSetup);
+
+
+    socket.on('ping', function() { socket.emit('pong'); });
   },
 
   onInput: function(data) {

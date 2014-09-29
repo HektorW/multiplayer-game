@@ -2,12 +2,16 @@ define([
   'underscore',
   'events',
 
-  'socket.io'
+  'socket.io',
+
+  'utils/settings'
 ], function(
   _,
   Events,
 
-  io
+  io,
+
+  Settings
 ) {
   
   var NetworkManager = {
@@ -23,12 +27,18 @@ define([
       var socket = this.socket;
 
       socket.on('connect', _.bind(this.onConnect, this));
+      socket.on('disconnect', _.bind(this.onDisconnect, this));
       socket.on('state', _.bind(this.onState, this));
     },
 
     onConnect: function() {
       console.log('connected');
       this.trigger('connect');
+    },
+
+    onDisconnect: function() {
+      console.log('disconnected');
+      this.trigger('disconnect');
     },
 
     onState: function(data) {
@@ -38,11 +48,15 @@ define([
     sendCommand: function(type, command) {
       setTimeout(_.bind(function() {
         this.socket.emit('command.' + type, command);
-      }, this), this.latency);
+      }, this), Settings.values.latency);
     },
 
     send: function(event, data) {
       this.socket.emit(event, data);
+    },
+
+    onMessage: function(event, callback) {
+      this.socket.on(event, callback);
     }
   };
 

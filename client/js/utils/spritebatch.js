@@ -5,10 +5,10 @@ define([], function() {
   var SpriteBatch = function(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    this.setSize();
+    this.resize();
   };
 
-  SpriteBatch.prototype.setSize = function(width, height) {
+  SpriteBatch.prototype.resize = function(width, height) {
     this.width = this.canvas.width = width || window.innerWidth;
     this.height = this.canvas.height = height || window.innerHeight;
   };

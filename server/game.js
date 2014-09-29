@@ -10,7 +10,7 @@ var NetworkCircle = require('./objects/NetworkCircle.js');
 
 var Game = Classy.extend({
   __init__: function() {
-    _.bindAll(this, 'update', 'start', 'stop', 'socketDisconnect');
+    _.bindAll(this, 'update', 'start', 'stop', 'socketDisconnect', 'onSettings');
 
     this.networkCircles = {};
 
@@ -22,6 +22,7 @@ var Game = Classy.extend({
     this.networkCircles[socket.id] = new NetworkCircle(this, socket);
 
     socket.on('disconnect', _.bind(function() { this.socketDisconnect(socket); }, this));
+    socket.on('settings', this.onSettings);
 
     if (_.keys(this.networkCircles).length === 1) {
       this.start();
@@ -33,6 +34,16 @@ var Game = Classy.extend({
     if (_.isEmpty(this.networkCircles)) {
       this.stop();
     }
+  },
+
+  onSettings: function(data) {
+    this.updateFrequencyMs = 1000 / data.fps;
+    this.latency = data.latency;
+
+    this.stop();
+    this.start();
+
+    console.log('settings updated. restarting loop with new settings.', JSON.stringify(data));
   },
 
 
@@ -51,6 +62,7 @@ var Game = Classy.extend({
     _.each(this.networkCircles, function(networkCircle, id) {
 
       networkCircle.update(timestamp);
+
       setTimeout(function() {
         networkCircle.socket.emit('state', {
           state: networkCircle.getState(),

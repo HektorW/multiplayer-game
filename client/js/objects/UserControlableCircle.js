@@ -1,6 +1,8 @@
 define([
   'controls/keyboard',
 
+  'utils/settings',
+
   'managers/NetworkManager',
 
   'shared/InputCommand',
@@ -9,18 +11,19 @@ define([
 ], function(
   Keyboard,
 
+  Settings,
+
   NetworkManager,
 
   InputCommand,
 
   DrawableCircle
 ) {
+  window.Settings = Settings;
   
   var UserControlableCircle = DrawableCircle.extend({
     __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(spriteBatch, x, y, radius, color);
-
-      this.clientPrediction = true;
     },
 
     update: function(timestamp) {
@@ -43,7 +46,7 @@ define([
 
       NetworkManager.sendCommand('input', inputCommand);
 
-      if (this.clientPrediction) {
+      if (Settings.values.clientPrediction) {
         this.handleState({
           direction: {
             x: inputCommand.x,

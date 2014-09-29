@@ -1,12 +1,13 @@
 define([
   'underscore',
 
-  'spritebatch',
-  'colors',
+  'utils/spritebatch',
+  'utils/colors',
+  'utils/settings',
+  'utils/ping',
 
   'shared/Timestamp',
 
-  'settings',
 
   'managers/NetworkManager',
 
@@ -18,10 +19,11 @@ define([
 
   SpriteBatch,
   Colors,
+  Settings,
+  Ping,
 
   Timestamp,
 
-  Settings,
 
   NetworkManager,
 
@@ -29,6 +31,7 @@ define([
 
   UserControlableCircle
 ) {
+  window._Settings = Settings;
 
   var App = {
     spriteBatch: null,
@@ -40,26 +43,47 @@ define([
     },
 
     init: function() {
-      _.bindAll(this, 'update', 'onState');
+      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect');
 
       this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
+
       Settings.init();
+      Settings.on('values.updated', function() {
+        NetworkManager.send('settings', Settings.values);
+      });
 
       NetworkManager.init();
-
+      NetworkManager.on('connect', this.onConnect);
+      NetworkManager.on('disconnect', this.onDisconnect);
       NetworkManager.on('state', this.onState);
+
+      Ping.init();
+
+      this.initDOM();
+    },
+
+    initDOM: function() {
+      window.addEventListener('resize', this.resize);
+    },
+
+    onConnect: function() {
+      this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
+      NetworkManager.send('setup', {
+        screenWidth: this.spriteBatch.width,
+        screenHeight: this.spriteBatch.height
+      });
+    },
+    onDisconnect: function() {
+      this.circle = null;
     },
 
     onState: function(state) {
-      if (!this.circle) {
-        this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
-        NetworkManager.send('setup', {
-          screenWidth: this.spriteBatch.width,
-          screenHeight: this.spriteBatch.height
-        });
-      }
-
       this.circle.handleState(state);
+    },
+
+
+    resize: function() {
+      this.spriteBatch.resize();
     },
 
     update: function() {
