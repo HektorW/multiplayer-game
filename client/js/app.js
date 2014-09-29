@@ -43,7 +43,7 @@ define([
     },
 
     init: function() {
-      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect');
+      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect', 'onTimeReset');
 
       this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
 
@@ -56,6 +56,7 @@ define([
       NetworkManager.on('connect', this.onConnect);
       NetworkManager.on('disconnect', this.onDisconnect);
       NetworkManager.on('state', this.onState);
+      NetworkManager.on('time.reset', this.onTimeReset);
 
       Ping.init();
 
@@ -72,13 +73,20 @@ define([
         screenWidth: this.spriteBatch.width,
         screenHeight: this.spriteBatch.height
       });
+
+      Settings.gui.open();
     },
     onDisconnect: function() {
       this.circle = null;
+      Settings.gui.close();
     },
 
     onState: function(state) {
       this.circle.handleState(state);
+    },
+
+    onTimeReset: function() {
+      this.previousTimestamp = Timestamp.create();
     },
 
 

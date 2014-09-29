@@ -1,4 +1,5 @@
 
+
 var _ = require('underscore');
 
 var Classy = require('../shared/libs/classy.js');
@@ -49,6 +50,12 @@ var Game = Classy.extend({
 
   start: function() {
     this.intervalId = setInterval(this.update, this.updateFrequencyMs);
+
+    _.each(this.networkCircles, function(networkCircle) {
+      networkCircle.socket.emit('time.reset', {
+        time: 0
+      });
+    });
   },
 
   stop: function() {
@@ -75,10 +82,6 @@ var Game = Classy.extend({
     this.previousTimestamp = timestamp;
   }
 });
-
-
-
-
 
 
 module.exports = new Game();

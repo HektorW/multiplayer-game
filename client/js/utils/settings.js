@@ -27,7 +27,9 @@ define([
 			gui.add(Settings.values, 'fps').min(1).max(60).step(5).onFinishChange(Settings.valuesChanged);
 			gui.add(Settings.values, 'clientPrediction');
 
-			// Settings.valuesChanged();
+			gui.close();
+
+			Settings.valuesChanged();
 		},
 
 		valuesChanged: function(value) {

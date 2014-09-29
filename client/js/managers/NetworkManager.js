@@ -29,6 +29,7 @@ define([
       socket.on('connect', _.bind(this.onConnect, this));
       socket.on('disconnect', _.bind(this.onDisconnect, this));
       socket.on('state', _.bind(this.onState, this));
+      socket.on('time.reset', _.bind(this.onTimeReset, this));
     },
 
     onConnect: function() {
@@ -43,6 +44,10 @@ define([
 
     onState: function(data) {
       this.trigger('state', data.state);
+    },
+
+    onTimeReset: function(data) {
+      this.trigger('time.reset', data);
     },
 
     sendCommand: function(type, command) {
