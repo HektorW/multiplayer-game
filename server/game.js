@@ -38,7 +38,7 @@ var Game = Classy.extend({
   },
 
   onSettings: function(data) {
-    this.updateFrequencyMs = 1000 / data.fps;
+    this.updateFrequencyMs = 1000 / Math.max(data.fps, 1);
     this.latency = data.latency;
 
     this.stop();

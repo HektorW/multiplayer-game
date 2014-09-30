@@ -30,19 +30,24 @@
 //
 {
   define: 'shared'
-}, [], function() {
+}, ['Timestamp'], function(Timestamp) {
 
 
   var InputCommand = {
     create: function() {
       return {
-        x: 0,
-        y: 0
+        timestamp: Timestamp.create(),
+        direction: {
+          x: 0,
+          y: 0
+        }
       };
     },
 
     equals: function(a, b) {
-      return a.x === b.x && a.y === b.y;
+      return a.direction.x === b.direction.x &&
+             a.direction.y === b.direction.y &&
+             a.timestamp.time === b.timestamp.time;
     }
   };
 

@@ -1,4 +1,6 @@
 define([
+  'underscore',
+  
   'controls/keyboard',
 
   'utils/settings',
@@ -9,6 +11,8 @@ define([
 
   'objects/DrawableCircle'
 ], function(
+  _,
+
   Keyboard,
 
   Settings,
@@ -24,7 +28,21 @@ define([
   var UserControlableCircle = DrawableCircle.extend({
     __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(spriteBatch, x, y, radius, color);
+
+      this.pendingStates = [];
+
+      NetworkManager.on('inputcommand.ackknowladged', _.bind(this.onInputAckknowladged, this));
     },
+
+
+    handleState: function(state) {
+      this.supr(state);
+
+      if (Settings.values.reconciliation) {
+        this.pendingStates.push(state);
+      }
+    },
+
 
     update: function(timestamp) {
       var keyboard = Keyboard.getInstance();
@@ -32,28 +50,29 @@ define([
       var inputCommand = InputCommand.create();
 
       if (keyboard.isButtonDown('left')) {
-        inputCommand.x -= 1;
+        inputCommand.direction.x -= 1;
       }
       if (keyboard.isButtonDown('right')) {
-        inputCommand.x += 1;
+        inputCommand.direction.x += 1;
       }
       if (keyboard.isButtonDown('up')) {
-        inputCommand.y -= 1;
+        inputCommand.direction.y -= 1;
       }
       if (keyboard.isButtonDown('down')) {
-        inputCommand.y += 1;
+        inputCommand.direction.y += 1;
       }
 
       NetworkManager.sendCommand('input', inputCommand);
 
       if (Settings.values.clientPrediction) {
-        this.handleState({
-          direction: {
-            x: inputCommand.x,
-            y: inputCommand.y
-          }
-        });
-        this.supr(timestamp);
+        if (Settings.values.reconciliation) {
+
+
+
+        } else {
+          this.handleState(inputCommand);
+          this.supr(timestamp);
+        }
       }
     }
   });

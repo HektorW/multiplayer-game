@@ -19,12 +19,7 @@ var NetworkCircle = BaseCircle.extend({
   },
 
   onInput: function(data) {
-    this.handleState({
-      direction: {
-        x: data.x,
-        y: data.y
-      }
-    });
+    this.handleState(data);
   },
 
   onSetup: function(data) {

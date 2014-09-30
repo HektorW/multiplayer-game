@@ -22,6 +22,12 @@
 ## Somewhere here 2D movements
   - keeping it simple up to this point
 
+
+# #####
+# <--- YOU'RE HERE
+# #####
+
+
 ## Server reconciliation
   - server acknowladging clients movement
   - client validates acknowladgments
