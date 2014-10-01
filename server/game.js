@@ -71,10 +71,12 @@ var Game = Classy.extend({
       networkCircle.update(timestamp);
 
       setTimeout(function() {
+
         networkCircle.socket.emit('state', {
           state: networkCircle.getState(),
           timestamp: timestamp
         });
+
       }, this.latency);
 
     }, this);

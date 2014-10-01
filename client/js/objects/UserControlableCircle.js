@@ -1,6 +1,6 @@
 define([
   'underscore',
-  
+
   'controls/keyboard',
 
   'utils/settings',
@@ -31,7 +31,7 @@ define([
 
       this.pendingStates = [];
 
-      NetworkManager.on('inputcommand.ackknowladged', _.bind(this.onInputAckknowladged, this));
+      // NetworkManager.on('inputcommand.ackknowladged', _.bind(this.onInputAckknowladged, this));
     },
 
 
@@ -65,14 +65,8 @@ define([
       NetworkManager.sendCommand('input', inputCommand);
 
       if (Settings.values.clientPrediction) {
-        if (Settings.values.reconciliation) {
-
-
-
-        } else {
-          this.handleState(inputCommand);
-          this.supr(timestamp);
-        }
+        this.handleState(inputCommand);
+        this.supr(timestamp);
       }
     }
   });
