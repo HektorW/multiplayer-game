@@ -45,9 +45,11 @@
     },
 
     equals: function(a, b) {
+      if (!a || !b) return false;
+
       return a.direction.x === b.direction.x &&
-             a.direction.y === b.direction.y &&
-             a.timestamp.time === b.timestamp.time;
+             a.direction.y === b.direction.y; // &&
+             // a.timestamp.time === b.timestamp.time;
     }
   };
 

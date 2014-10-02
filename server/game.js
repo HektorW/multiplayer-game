@@ -17,6 +17,7 @@ var Game = Classy.extend({
 
     this.updateFrequencyMs = 1000 / 1;
     this.latency = 300;
+    this.reconciliation = false;
   },
 
   socketConnect: function(socket) {
@@ -40,6 +41,7 @@ var Game = Classy.extend({
   onSettings: function(data) {
     this.updateFrequencyMs = 1000 / Math.max(data.fps, 1);
     this.latency = data.latency;
+    this.reconciliation = data.reconciliation;
 
     this.stop();
     this.start();

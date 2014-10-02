@@ -44,6 +44,9 @@
         y: 0
       };
       this.velocity = 0.0;
+
+
+      this.pendingStates = [];
     },
 
     handleState: function(state) {

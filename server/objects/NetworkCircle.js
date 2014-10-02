@@ -8,17 +8,28 @@ var NetworkCircle = BaseCircle.extend({
     _.bindAll(this, 'update', 'onInput', 'onSetup');
     this.supr(0, 0, 50);
 
+    this.game = game;
+
     this.socket = socket;
     this.velocity = 100;
 
+
+    this.pendingStates = [];
+
+
     socket.on('command.input', this.onInput);
     socket.on('setup', this.onSetup);
-
 
     socket.on('ping', function() { socket.emit('pong'); });
   },
 
   onInput: function(data) {
+
+    if (this.game.reconciliation) {
+
+    }
+
+
     this.handleState(data);
   },
 

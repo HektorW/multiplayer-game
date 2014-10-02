@@ -27,11 +27,9 @@ define([
 			gui.add(Settings.values, 'latency').min(0).max(1000).step(50).onFinishChange(Settings.valuesChanged);
 			gui.add(Settings.values, 'fps').min(1).max(60).step(5).onFinishChange(Settings.valuesChanged);
 			gui.add(Settings.values, 'clientPrediction').name('client prediction');
-			gui.add(Settings.values, 'reconciliation').name('reconciliation');
+			gui.add(Settings.values, 'reconciliation').name('reconciliation').onChange(Settings.valuesChanged);
 
 			gui.close();
-
-			Settings.valuesChanged();
 		},
 
 		valuesChanged: function(value) {

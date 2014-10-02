@@ -29,9 +29,12 @@ define([
     __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(spriteBatch, x, y, radius, color);
 
-      this.pendingStates = [];
+      NetworkManager.on('state.acknowledged', _.bind(this.onInputAckknowladged, this));
+    },
 
-      // NetworkManager.on('inputcommand.ackknowladged', _.bind(this.onInputAckknowladged, this));
+
+    onInputAckknowladged: function(state) {
+      console.log(state);
     },
 
 
@@ -62,12 +65,24 @@ define([
         inputCommand.direction.y += 1;
       }
 
-      NetworkManager.sendCommand('input', inputCommand);
+
+      if (!InputCommand.equals(this.lastInputCommand, inputCommand)) {
+        NetworkManager.sendCommand('input', inputCommand);
+
+        if (Settings.values.clientPrediction) {
+          this.handleState(inputCommand);
+        }
+      }
 
       if (Settings.values.clientPrediction) {
-        this.handleState(inputCommand);
         this.supr(timestamp);
       }
+
+      this.lastInputCommand = inputCommand;
+    },
+
+    draw: function() {
+      this.supr();
     }
   });
 

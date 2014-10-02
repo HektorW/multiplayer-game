@@ -61,6 +61,8 @@ define([
       Ping.init();
 
       this.initDOM();
+
+      Settings.trigger('values.updated');
     },
 
     initDOM: function() {
