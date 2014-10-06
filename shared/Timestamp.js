@@ -26,15 +26,16 @@
     },
 
     create: function(previous) {
+      var now = Timestamp.now();
+
       if (!previous) {
         previous = {
-          time: 0,
+          time: now,
           tick: 0,
           elapsedMs: 0,
           total: 0
         };
       }
-      var now = Timestamp.now();
       var elapsedMs = now - previous.time;
       var total = previous.total + elapsedMs;
 

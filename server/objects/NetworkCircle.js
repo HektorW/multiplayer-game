@@ -13,6 +13,9 @@ var NetworkCircle = BaseCircle.extend({
     this.socket = socket;
     this.velocity = 100;
 
+    this.screenWidth = 0;
+    this.screenHeight = 0;
+
 
     this.pendingStates = [];
 
@@ -23,10 +26,19 @@ var NetworkCircle = BaseCircle.extend({
     socket.on('ping', function() { socket.emit('pong'); });
   },
 
+  setup: function() {
+    this.handleState({
+      position: {
+        x: this.screenWidth / 2,
+        y: this.screenHeight / 2
+      }
+    });
+  },
+
   onInput: function(data) {
 
     if (this.game.reconciliation) {
-
+      this.socket.emit('state.acknowledged', data);
     }
 
 
@@ -34,12 +46,10 @@ var NetworkCircle = BaseCircle.extend({
   },
 
   onSetup: function(data) {
-    this.handleState({
-      position: {
-        x: data.screenWidth / 2,
-        y: data.screenHeight / 2
-      }
-    });
+    this.screenWidth = data.screenWidth;
+    this.screenHeight = data.screenHeight;
+
+    this.setup();
   },
 
   update: function(timestamp) {

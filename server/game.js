@@ -1,4 +1,4 @@
-
+'use strict'
 
 var _ = require('underscore');
 
@@ -25,6 +25,7 @@ var Game = Classy.extend({
 
     socket.on('disconnect', _.bind(function() { this.socketDisconnect(socket); }, this));
     socket.on('settings', this.onSettings);
+    socket.on('restart', this.start);
 
     if (_.keys(this.networkCircles).length === 1) {
       this.start();
@@ -43,7 +44,6 @@ var Game = Classy.extend({
     this.latency = data.latency;
     this.reconciliation = data.reconciliation;
 
-    this.stop();
     this.start();
 
     console.log('settings updated. restarting loop with new settings.', JSON.stringify(data));
@@ -51,9 +51,11 @@ var Game = Classy.extend({
 
 
   start: function() {
+    this.stop();
     this.intervalId = setInterval(this.update, this.updateFrequencyMs);
 
     _.each(this.networkCircles, function(networkCircle) {
+      networkCircle.setup();
       networkCircle.socket.emit('game.start', {
         time: 0
       });
