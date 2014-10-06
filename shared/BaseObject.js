@@ -49,6 +49,12 @@
       this.pendingStates = [];
     },
 
+
+    handleInputCommand: function(cmd) {
+      
+    },
+
+
     handleState: function(state) {
       if (state.position) {
         this.position.x = state.position.x;

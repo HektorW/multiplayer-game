@@ -43,7 +43,7 @@ define([
     },
 
     init: function() {
-      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect', 'onTimeReset');
+      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect', 'onGameStart');
 
       this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
 
@@ -56,7 +56,7 @@ define([
       NetworkManager.on('connect', this.onConnect);
       NetworkManager.on('disconnect', this.onDisconnect);
       NetworkManager.on('state', this.onState);
-      NetworkManager.on('time.reset', this.onTimeReset);
+      NetworkManager.on('game.start', this.onGameStart);
 
       Ping.init();
 
@@ -87,7 +87,7 @@ define([
       this.circle.handleState(state);
     },
 
-    onTimeReset: function() {
+    onGameStart: function() {
       this.previousTimestamp = Timestamp.create();
     },
 

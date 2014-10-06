@@ -54,7 +54,7 @@ var Game = Classy.extend({
     this.intervalId = setInterval(this.update, this.updateFrequencyMs);
 
     _.each(this.networkCircles, function(networkCircle) {
-      networkCircle.socket.emit('time.reset', {
+      networkCircle.socket.emit('game.start', {
         time: 0
       });
     });

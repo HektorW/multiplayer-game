@@ -29,6 +29,8 @@ define([
     __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(spriteBatch, x, y, radius, color);
 
+      this.lastKnownServerState = {};
+
       NetworkManager.on('state.acknowledged', _.bind(this.onInputAckknowladged, this));
     },
 
