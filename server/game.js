@@ -40,7 +40,7 @@ var Game = Classy.extend({
   },
 
   onSettings: function(data) {
-    this.updateFrequencyMs = 1000 / Math.max(data.fps, 1);
+    this.updateFrequencyMs = 1000 / Math.max(data.serverfps, 1);
     this.latency = data.latency;
     this.reconciliation = data.reconciliation;
 
@@ -68,7 +68,7 @@ var Game = Classy.extend({
 
 
   update: function() {
-    var timestamp = Timestamp.create(this.previousTimestamp);
+    var timestamp = Timestamp.create(this.lastTimestamp);
 
     _.each(this.networkCircles, function(networkCircle, id) {
 
@@ -85,7 +85,7 @@ var Game = Classy.extend({
 
     }, this);
 
-    this.previousTimestamp = timestamp;
+    this.lastTimestamp = timestamp;
   }
 });
 

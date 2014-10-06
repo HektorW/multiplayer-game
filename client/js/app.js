@@ -78,7 +78,6 @@ define([
     },
 
     onConnect: function() {
-      this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
       NetworkManager.send('setup', {
         screenWidth: this.spriteBatch.width,
         screenHeight: this.spriteBatch.height
@@ -97,6 +96,7 @@ define([
 
     onGameStart: function() {
       this.previousTimestamp = Timestamp.create();
+      this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
     },
 
 

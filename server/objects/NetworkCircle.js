@@ -16,8 +16,7 @@ var NetworkCircle = BaseCircle.extend({
     this.screenWidth = 0;
     this.screenHeight = 0;
 
-
-    this.pendingStates = [];
+    this.lastKnownState = null;
 
 
     socket.on('command.input', this.onInput);
@@ -27,22 +26,38 @@ var NetworkCircle = BaseCircle.extend({
   },
 
   setup: function() {
-    this.handleState({
+    var state = this.lastKnownState = {
       position: {
         x: this.screenWidth / 2,
         y: this.screenHeight / 2
       }
-    });
+    };
+
+    this.handleState(state);
   },
 
   onInput: function(data) {
-
     if (this.game.reconciliation) {
-      this.socket.emit('state.acknowledged', data);
+      // first we set a state to the last known
+      var lastState = this.lastKnownState;
+      var elapsedTime = Timestamp.create(lastState.timestamp, data.timestamp);
+
+      this.handleState(lastState);
+      this.update(elapsedTime);
+
+      // now we have the state where we apply the input
+      var onInputState = this.getState();
+      elapsedTime = Timestamp.create(data.timestamp, this.game.lastTimestamp);
+      this.handleState(data);
+      this.update(elapsedTime);
+
+      var acknowledgedState = onInputState;
+      acknowledgedState.timestamp = data.timestamp;
+
+      this.socket.emit('state.acknowledged', acknowledgedState);
+    } else {
+      this.handleState(data);
     }
-
-
-    this.handleState(data);
   },
 
   onSetup: function(data) {
