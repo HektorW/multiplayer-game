@@ -5,6 +5,7 @@ define([
   'utils/colors',
   'utils/settings',
   'utils/ping',
+  'utils/output',
 
   'shared/Timestamp',
 
@@ -21,6 +22,7 @@ define([
   Colors,
   Settings,
   Ping,
+  Output,
 
   Timestamp,
 
@@ -42,7 +44,7 @@ define([
     },
 
     init: function() {
-      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect', 'onGameStart');
+      _.bindAll(this, 'update', 'resize', 'onState', 'onConnect', 'onDisconnect', 'onGameStart', 'requestRestart');
 
       this.spriteBatch = new SpriteBatch(document.getElementById('canvas'));
 
@@ -57,10 +59,12 @@ define([
       NetworkManager.on('state', this.onState);
       NetworkManager.on('game.start', this.onGameStart);
 
-      Ping.init();
+      // Ping.init();
+      Output.init();
 
       this.initDOM();
 
+      Settings.on('restart', this.requestRestart);
       Settings.trigger('values.updated');
     },
 
@@ -68,8 +72,11 @@ define([
       window.addEventListener('resize', this.resize);
     },
 
+    requestRestart: function() {
+      NetworkManager.send('restart');
+    },
+
     onConnect: function() {
-      this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
       NetworkManager.send('setup', {
         screenWidth: this.spriteBatch.width,
         screenHeight: this.spriteBatch.height
@@ -88,6 +95,7 @@ define([
 
     onGameStart: function() {
       this.previousTimestamp = Timestamp.create();
+      this.circle = new UserControlableCircle(this.spriteBatch, 0, 0, 0, Colors.navy);
     },
 
 
@@ -99,6 +107,10 @@ define([
       requestAnimationFrame(this.update);
 
       var timestamp = Timestamp.create(this.previousTimestamp);
+
+      if (timestamp.elapsedMs < (1000 / Settings.values.clientfps)) return;
+
+      Output.fixed('totaltime', 'totaltime: ' + (timestamp.total / 1000).toFixed(2));
 
       Keyboard.getInstance().update();
 

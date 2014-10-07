@@ -25,16 +25,17 @@
       return Date.now();
     },
 
-    create: function(previous) {
+    /*create: function(previous) {
+      var now = Timestamp.now();
+
       if (!previous) {
         previous = {
-          time: 0,
+          time: now,
           tick: 0,
           elapsedMs: 0,
           total: 0
         };
       }
-      var now = Timestamp.now();
       var elapsedMs = now - previous.time;
       var total = previous.total + elapsedMs;
 
@@ -43,6 +44,26 @@
         tick: (elapsedMs) / 1000.0,
         elapsedMs: elapsedMs,
         total: total
+      };
+    },*/
+
+    create: function(from, to) {
+      if (!to) {
+        to = {
+          time: Timestamp.now(),
+          tick: 0,
+          elapsedMs: 0,
+          total: 0
+        };
+      }
+      if (!from) return to;
+
+      var elapsedMs = to.time - from.time;
+      return {
+        time: to.time,
+        total: from.total + elapsedMs,
+        elapsedMs: elapsedMs,
+        tick: (elapsedMs / 1000)
       };
     }
   };

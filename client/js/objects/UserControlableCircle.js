@@ -4,6 +4,7 @@ define([
   'controls/keyboard',
 
   'utils/settings',
+  'utils/output',
 
   'managers/NetworkManager',
 
@@ -16,6 +17,7 @@ define([
   Keyboard,
 
   Settings,
+  Output,
 
   NetworkManager,
 
@@ -36,7 +38,7 @@ define([
 
 
     onInputAckknowladged: function(state) {
-      console.log(state);
+      
     },
 
 
@@ -81,6 +83,8 @@ define([
       }
 
       this.lastInputCommand = inputCommand;
+
+      Output.fixed('pendingstates', 'pendingstates: ' + this.pendingStates.length);
     },
 
     draw: function() {

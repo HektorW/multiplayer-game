@@ -28,8 +28,9 @@ define([
 
       socket.on('connect', _.bind(this.onConnect, this));
       socket.on('disconnect', _.bind(this.onDisconnect, this));
+      socket.on('game.start', _.bind(this.onGameStart, this));
       socket.on('state', _.bind(this.onState, this));
-      socket.on('time.reset', _.bind(this.onTimeReset, this));
+      socket.on('state.ack')
     },
 
     onConnect: function() {
@@ -46,8 +47,8 @@ define([
       this.trigger('state', data.state);
     },
 
-    onTimeReset: function(data) {
-      this.trigger('time.reset', data);
+    onGameStart: function(data) {
+      this.trigger('game.start', data);
     },
 
     sendCommand: function(type, command) {
