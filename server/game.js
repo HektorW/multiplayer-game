@@ -1,5 +1,4 @@
 
-
 var _ = require('underscore');
 
 var Classy = require('../shared/libs/classy.js');
