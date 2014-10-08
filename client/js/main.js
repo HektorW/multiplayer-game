@@ -36,12 +36,12 @@ require(['app'], function(App) {
     };
  
   // requestAnimationFrame
-  var rAF = 'equestAnimationFrame';
-  w['r'+rAF] =
-    w['r'+rAF] ||
-    w['webkitR'+rAF] ||
-    w['mozR'+rAF] ||
-    w['msR'+rAF] ||
+  var raf = 'equestAnimationFrame';
+  w['r'+raf] =
+    w['r'+raf] ||
+    w['webkitR'+raf] ||
+    w['mozR'+raf] ||
+    w['msR'+raf] ||
     function(cb) {
       return setTimeout(function(){
         cb(p.now());
@@ -49,12 +49,12 @@ require(['app'], function(App) {
     };
  
   // cancelAnimationFrame
-  var cAF = 'ancelAnimationFrame';
-  w['c'+cAF] =
-    w['c'+cAF] ||
-    w['webkitC'+cAF] ||
-    w['mozC'+cAF] ||
-    w['msC'+cAF] ||
+  var caf = 'ancelAnimationFrame';
+  w['c'+caf] =
+    w['c'+caf] ||
+    w['webkitC'+caf] ||
+    w['mozC'+caf] ||
+    w['msC'+caf] ||
     function(id) {
       return clearTimeout(id);
     };

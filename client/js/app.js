@@ -33,7 +33,6 @@ define([
 
   UserControlableCircle
 ) {
-  window._Settings = Settings;
 
   var App = {
     spriteBatch: null,
