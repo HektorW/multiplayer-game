@@ -55,6 +55,7 @@ var NetworkCircle = BaseCircle.extend({
       acknowledgedState.timestamp = data.timestamp;
 
       this.socket.emit('state.acknowledged', acknowledgedState);
+      console.log('state.acknowledged');
     } else {
       this.handleState(data);
     }

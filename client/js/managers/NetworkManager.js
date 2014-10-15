@@ -30,7 +30,7 @@ define([
       socket.on('disconnect', _.bind(this.onDisconnect, this));
       socket.on('game.start', _.bind(this.onGameStart, this));
       socket.on('state', _.bind(this.onState, this));
-      socket.on('state.ack')
+      socket.on('state.acknowledged', _.bind(this.onStateAcknowledged, this));
     },
 
     onConnect: function() {
@@ -49,6 +49,10 @@ define([
 
     onGameStart: function(data) {
       this.trigger('game.start', data);
+    },
+
+    onStateAcknowledged: function(data) {
+      this.trigger('state.acknowledged', data);
     },
 
     sendCommand: function(type, command) {

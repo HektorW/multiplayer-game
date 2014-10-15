@@ -33,11 +33,11 @@ define([
 
       this.lastKnownServerState = {};
 
-      NetworkManager.on('state.acknowledged', _.bind(this.onInputAckknowladged, this));
+      NetworkManager.on('state.acknowledged', _.bind(this.onInputAcknowladged, this));
     },
 
 
-    onInputAckknowladged: function(state) {
+    onInputAcknowladged: function(state) {
       var pendingState;
       var i = 0, len = this.pendingStates.length;
       for ( ; i < len; ++i) {
@@ -116,7 +116,18 @@ define([
     },
 
     draw: function() {
-      this.supr();
+      if (Settings.values.reconciliation) {
+        var state = this.getState();
+
+        this.handleState(this.lastKnownServerState, false);
+        this.supr();
+
+        this.handleState(state, false);
+        this.supr();
+
+      } else {
+        this.supr();
+      }
     }
   });
 
