@@ -33,10 +33,11 @@ define([
 			gui.add(Settings.values, 'latency').min(0).max(1000).step(50).onFinishChange(Settings.valuesChanged);
 			gui.add(Settings.values, 'serverfps').min(1).max(60).step(5).onFinishChange(Settings.valuesChanged);
 			gui.add(Settings.values, 'clientPrediction').name('client prediction').listen();
-			gui.add(Settings.values, 'reconciliation').name('reconciliation').onChange(Settings.valuesChanged).onChange(function(value) {
+			gui.add(Settings.values, 'reconciliation').name('reconciliation').onChange(function(value) {
 				if (value) {
 					Settings.values.clientPrediction = true;
 				}
+				Settings.valuesChanged(value);
 			});
 
 			gui.close();

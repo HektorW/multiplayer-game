@@ -5,10 +5,12 @@ define([
 
   'utils/settings',
   'utils/output',
+  'utils/colors',
 
   'managers/NetworkManager',
 
   'shared/InputCommand',
+  'shared/Timestamp',
 
   'objects/DrawableCircle'
 ], function(
@@ -18,10 +20,12 @@ define([
 
   Settings,
   Output,
+  Colors,
 
   NetworkManager,
 
   InputCommand,
+  Timestamp,
 
   DrawableCircle
 ) {
@@ -31,7 +35,7 @@ define([
     __init__: function(spriteBatch, x, y, radius, color) {
       this.supr(spriteBatch, x, y, radius, color);
 
-      this.lastKnownServerState = {};
+      this.lastAcknowledgedState = {};
 
       NetworkManager.on('state.acknowledged', _.bind(this.onInputAcknowladged, this));
     },
@@ -52,7 +56,7 @@ define([
 
       // Set state from server which we start from
       var timestamp = state.timestamp;
-      this.handleState(state, false);
+      this.handleState(state);
 
 
       for (i = 0, len = this.pendingStates.length; i < len; i++) {
@@ -62,13 +66,21 @@ define([
         this.handleState(pendingState);
         this.update(timestamp, true);
       }
+
+      this.lastAcknowledgedState = state;
+    },
+
+    handleServerState: function(state) {
+      if (!Settings.values.reconciliation) {
+        this.handleState(state);
+      }
     },
 
 
     handleState: function(state, push) {
       this.supr(state);
 
-      if (Settings.values.reconciliation && push !== false) {
+      if (Settings.values.reconciliation && push === true) {
         this.pendingStates.push(state);
       }
     },
@@ -101,7 +113,7 @@ define([
           NetworkManager.sendCommand('input', inputCommand);
 
           if (Settings.values.clientPrediction) {
-            this.handleState(inputCommand);
+            this.handleState(inputCommand, true);
           }
         }
 
@@ -119,8 +131,8 @@ define([
       if (Settings.values.reconciliation) {
         var state = this.getState();
 
-        this.handleState(this.lastKnownServerState, false);
-        this.supr();
+        this.handleState(this.lastAcknowledgedState, false);
+        this.supr(Colors.red);
 
         this.handleState(state, false);
         this.supr();

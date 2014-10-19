@@ -1,6 +1,8 @@
 
 var _ = require('underscore');
+
 var BaseCircle = require('../../shared/BaseCircle.js');
+var Timestamp = require('../../shared/Timestamp.js');
 
 var NetworkCircle = BaseCircle.extend({
 
@@ -53,6 +55,7 @@ var NetworkCircle = BaseCircle.extend({
 
       var acknowledgedState = onInputState;
       acknowledgedState.timestamp = data.timestamp;
+      console.log(acknowledgedState);
 
       this.socket.emit('state.acknowledged', acknowledgedState);
       console.log('state.acknowledged');

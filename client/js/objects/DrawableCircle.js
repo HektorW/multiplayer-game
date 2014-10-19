@@ -12,8 +12,8 @@ define([
       this.color = color;
     },
 
-    draw: function() {
-      this.spriteBatch.drawCircle(this.position.x, this.position.y, this.radius, this.color, true);
+    draw: function(color) {
+      this.spriteBatch.drawCircle(this.position.x, this.position.y, this.radius, color || this.color, true);
     }
   });
 

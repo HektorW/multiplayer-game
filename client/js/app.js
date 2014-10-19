@@ -90,7 +90,7 @@ define([
     },
 
     onState: function(state) {
-      this.circle.handleState(state);
+      this.circle.handleServerState(state);
     },
 
     onGameStart: function() {
