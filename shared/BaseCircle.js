@@ -31,13 +31,14 @@
     },
 
 
-    handleState: function(state) {
+    setState: function(state) {
       this.supr(state);
 
       if (state.radius) {
         this.radius = state.radius;
       }
     },
+
 
     getState: function() {
       var state = this.supr();

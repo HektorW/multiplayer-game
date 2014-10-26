@@ -37,31 +37,41 @@
     },
 
 
-    handleInputCommand: function(cmd) {
-      
+    setPosition: function(position) {
+      this.position.x = position.x;
+      this.position.y = position.y;
     },
 
 
-    handleState: function(state) {
+    setDirection: function(direction) {
+      this.direction.x = direction.x;
+      this.direction.y = direction.y;
+
+      var dirLen = Math.sqrt(Math.pow(this.direction.x, 2) + Math.pow(this.direction.y, 2));
+      if (dirLen > 1) {
+        this.direction.x /= dirLen;
+        this.direction.y /= dirLen;
+      }
+    },
+
+
+    setState: function(state) {
       if (state.position) {
-        this.position.x = state.position.x;
-        this.position.y = state.position.y;
+        this.setPosition(state.position);  
       }
 
       if (state.direction) {
-        this.direction.x = state.direction.x;
-        this.direction.y = state.direction.y;
-
-        var dirLen = Math.sqrt(Math.pow(this.direction.x, 2) + Math.pow(this.direction.y, 2));
-        if (dirLen > 1) {
-          this.direction.x /= dirLen;
-          this.direction.y /= dirLen;
-        }
+        this.setDirection(direction);
       }
 
       if (state.velocity) {
         this.velocity = state.velocity;
       }
+    },
+
+
+    handleState: function(state) {
+      this.setState(state);
     },
 
     getState: function() {
@@ -78,9 +88,17 @@
       };
     },
 
-    update: function(timestamp) {
+
+
+
+
+    step: function(timestamp) {
       this.position.x += this.direction.x * this.velocity * timestamp.tick;
       this.position.y += this.direction.y * this.velocity * timestamp.tick;
+    },
+
+    update: function(timestamp) {
+      this.step(timestamp);
     }
   });
 

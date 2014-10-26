@@ -19,8 +19,8 @@ define([
 			clientfps: 60,
 			latency: 100,
 			serverfps: 10,
-			clientPrediction: false,
-			reconciliation: false
+			clientPrediction: true,
+			reconciliation: true
 		},
 
 		init: function() {

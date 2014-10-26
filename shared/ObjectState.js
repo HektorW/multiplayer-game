@@ -30,12 +30,15 @@
 ) {
   var ObjectState = {
     create: function() {
-    	timestamp: Timestamp.create(),
-    	position: {
-    		x: 0,
-
-    	}
+      return {
+        timestamp: Timestamp.create(),
+        position: {
+          x: 0,
+          y: 0
+        }
+      };
     }
+
   };
 
   return ObjectState;
